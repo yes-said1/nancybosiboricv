@@ -28,7 +28,7 @@ const Login = () => {
 
       // Wait 1.5s to show success message before redirect
       setTimeout(() => {
-        navigate("/admin/dashboard");
+        navigate("/admin");
       }, 1500);
     } catch (err) {
       setMessage({ type: "error", text: err.response?.data?.message || "Login failed" });

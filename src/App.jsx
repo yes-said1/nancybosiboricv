@@ -7,7 +7,7 @@ import Services from './pages/Services';
 import Contact from './pages/Contact';
 import Register from './pages/Register';
 import Login from './pages/Login';
-// import AdminDashboard from './pages/AdminDashboard';
+import AdminDash from './pages/AdminDash';
 // import ManageProjects from './pages/ManageProjects';
 // import ManageBlogs from './pages/ManageBlogs';
 // import ContactMessages from './pages/ContactMessages';
@@ -29,6 +29,7 @@ const App = () => {
         <Route path='contact' element={<Contact />} />
         <Route path='register' element={<Register />} />
         <Route path='login' element={<Login />} />
+        <Route path='admin' element={<AdminDash />} />
         {/* <Route path="about" element={<AboutUs />} />
         <Route path="terms" element={<Terms />} />
         <Route path="privacy" element={<Privacy />} />
