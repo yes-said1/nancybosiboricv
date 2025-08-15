@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { User, Mail, Lock, CheckCircle, XCircle } from "lucide-react";
-import axiosInstance from "../utils/axiosInstance"; // <-- use your axios instance
+import { User, Mail, Lock, CheckCircle, XCircle, Loader2 } from "lucide-react"; // Loader2 for spinner
+import axiosInstance from "../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
@@ -11,6 +11,7 @@ const Register = () => {
   });
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false); // Loading state
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -21,24 +22,25 @@ const Register = () => {
     e.preventDefault();
     setErrorMessage("");
     setSuccessMessage("");
+    setLoading(true); // Start loading
 
     try {
       const res = await axiosInstance.post("/api/admin/register", formData);
       setSuccessMessage(res.data.message || "Registration successful!");
-
-      // Redirect after 2 seconds
       setTimeout(() => {
         navigate("/login");
       }, 2000);
     } catch (err) {
       setErrorMessage(err.response?.data?.message || "Registration failed");
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-[#0B1E3F] to-[#123C69] px-4">
       <div className="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full relative">
-        
+
         {/* Success message */}
         {successMessage && (
           <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded-lg flex items-center space-x-2 animate-fadeInScale">
@@ -104,11 +106,20 @@ const Register = () => {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-[#FFD700] text-[#0B1E3F] font-bold py-3 rounded-lg hover:bg-[#E6C200] transition-colors"
+            disabled={loading}
+            className={`w-full flex justify-center items-center bg-[#FFD700] text-[#0B1E3F] font-bold py-3 rounded-lg hover:bg-[#E6C200] transition-colors disabled:opacity-70`}
           >
-            Register
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin mr-2" size={20} />
+                Registering...
+              </>
+            ) : (
+              "Register"
+            )}
           </button>
         </form>
+
         <p className="text-center text-gray-600 mt-4">
           Already have an account?{" "}
           <a href="/login" className="text-[#0B1E3F] font-semibold hover:underline">
