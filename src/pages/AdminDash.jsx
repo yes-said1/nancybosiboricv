@@ -22,16 +22,16 @@ const AdminDash = () => {
 //       });
 //   }, [navigate]);
 
-  const handleLogout = () => {
-    axios
-      .post("http://localhost:3000/api/admin/logout")
-      .then(() => {
-        navigate("/login");
-      })
-      .catch((err) => console.error(err));
-  };
+//   const handleLogout = () => {
+//     axios
+//       .post("http://localhost:3000/api/admin/logout")
+//       .then(() => {
+//         navigate("/login");
+//       })
+//       .catch((err) => console.error(err));
+//   };
 
-  if (loading) return <p className="text-center mt-10">Loading...</p>;
+//   if (loading) return <p className="text-center mt-10">Loading...</p>;
 
   return (
     <div className="flex min-h-screen bg-gray-100">
