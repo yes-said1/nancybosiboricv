@@ -10,17 +10,17 @@ const AdminDash = () => {
   const [loading, setLoading] = useState(true);
 
   // Check if logged in
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/admin/me") // Backend route to check current admin
-      .then((res) => {
-        setAdmin(res.data);
-        setLoading(false);
-      })
-      .catch(() => {
-        navigate("/login");
-      });
-  }, [navigate]);
+//   useEffect(() => {
+//     axios
+//       .get("http://localhost:3000/api/admin/me") // Backend route to check current admin
+//       .then((res) => {
+//         setAdmin(res.data);
+//         setLoading(false);
+//       })
+//       .catch(() => {
+//         navigate("/login");
+//       });
+//   }, [navigate]);
 
   const handleLogout = () => {
     axios
