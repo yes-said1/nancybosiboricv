@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Mail, Lock } from "lucide-react";
-import axiosInstance from "../utils/axiosInstance"; // <-- import shared instance
+import { Mail, Lock, Loader2 } from "lucide-react";
+import axiosInstance from "../utils/axiosInstance"; // shared axios instance
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
+  const [loading, setLoading] = useState(false); // Loading state
+  const [message, setMessage] = useState({ type: "", text: "" }); // Success/error message
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -14,12 +16,16 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setMessage({ type: "", text: "" }); // reset message
     try {
       const res = await axiosInstance.post("/api/admin/login", formData);
-      alert(res.data.message);
       localStorage.setItem("token", res.data.token); // store JWT token
+      setMessage({ type: "success", text: res.data.message || "Login successful!" });
     } catch (err) {
-      alert(err.response?.data?.message || "Login failed");
+      setMessage({ type: "error", text: err.response?.data?.message || "Login failed" });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -29,6 +35,18 @@ const Login = () => {
         <h2 className="text-3xl font-bold text-center text-[#0B1E3F] mb-6">
           Welcome Back
         </h2>
+        
+        {/* Feedback Message */}
+        {message.text && (
+          <p
+            className={`text-center mb-4 font-semibold ${
+              message.type === "success" ? "text-green-600" : "text-red-600"
+            }`}
+          >
+            {message.text}
+          </p>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Email */}
           <div className="flex items-center border border-gray-300 rounded-lg px-4">
@@ -61,11 +79,16 @@ const Login = () => {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-[#FFD700] text-[#0B1E3F] font-bold py-3 rounded-lg hover:bg-[#E6C200] transition-colors"
+            disabled={loading}
+            className={`w-full flex justify-center items-center bg-[#FFD700] text-[#0B1E3F] font-bold py-3 rounded-lg transition-colors ${
+              loading ? "opacity-70 cursor-not-allowed" : "hover:bg-[#E6C200]"
+            }`}
           >
-            Login
+            {loading ? <Loader2 className="animate-spin mr-2" /> : null}
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
+
         <p className="text-center text-gray-600 mt-4">
           Don’t have an account?{" "}
           <a href="/register" className="text-[#0B1E3F] font-semibold hover:underline">
