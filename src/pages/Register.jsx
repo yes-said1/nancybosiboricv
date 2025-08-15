@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { User, Mail, Lock, CheckCircle, XCircle, Loader2 } from "lucide-react"; // Loader2 for spinner
+import { User, Mail, Lock, CheckCircle, XCircle, Loader2 } from "lucide-react";
 import axiosInstance from "../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
 
@@ -11,36 +11,69 @@ const Register = () => {
   });
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(""); // NEW
   const navigate = useNavigate();
 
+  // Password strength checker function
+  const checkPasswordStrength = (password) => {
+    let strength = 0;
+
+    if (password.length >= 8) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[a-z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+    if (strength <= 2) return "Weak";
+    if (strength === 3 || strength === 4) return "Medium";
+    if (strength === 5) return "Strong";
+    return "";
+  };
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (name === "password") {
+      setPasswordStrength(checkPasswordStrength(value));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
     setSuccessMessage("");
-    setLoading(true); // Start loading
 
+    // Enforce strong password only
+    if (passwordStrength !== "Strong") {
+      setErrorMessage("Password must be Strong (uppercase, lowercase, number, special character, and at least 8 characters).");
+      return;
+    }
+
+    setLoading(true);
     try {
       const res = await axiosInstance.post("/api/admin/register", formData);
       setSuccessMessage(res.data.message || "Registration successful!");
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       setErrorMessage(err.response?.data?.message || "Registration failed");
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
+  };
+
+  // Function to determine color based on strength
+  const getStrengthColor = () => {
+    if (passwordStrength === "Weak") return "text-red-500";
+    if (passwordStrength === "Medium") return "text-yellow-500";
+    if (passwordStrength === "Strong") return "text-green-500";
+    return "text-gray-500";
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-[#0B1E3F] to-[#123C69] px-4">
       <div className="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full relative">
-
         {/* Success message */}
         {successMessage && (
           <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded-lg flex items-center space-x-2 animate-fadeInScale">
@@ -90,17 +123,24 @@ const Register = () => {
           </div>
 
           {/* Password */}
-          <div className="flex items-center border border-gray-300 rounded-lg px-4">
-            <Lock className="text-gray-400 mr-3" />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="w-full py-3 outline-none"
-            />
+          <div>
+            <div className="flex items-center border border-gray-300 rounded-lg px-4">
+              <Lock className="text-gray-400 mr-3" />
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="w-full py-3 outline-none"
+              />
+            </div>
+            {formData.password && (
+              <p className={`mt-1 text-sm font-semibold ${getStrengthColor()}`}>
+                Strength: {passwordStrength}
+              </p>
+            )}
           </div>
 
           {/* Submit */}
