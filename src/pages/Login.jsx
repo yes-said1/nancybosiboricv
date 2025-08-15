@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { Mail, Lock, Loader2 } from "lucide-react";
 import axiosInstance from "../utils/axiosInstance"; // shared axios instance
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
-  const [loading, setLoading] = useState(false); // Loading state
-  const [message, setMessage] = useState({ type: "", text: "" }); // Success/error message
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState({ type: "", text: "" });
+  const navigate = useNavigate(); // navigation hook
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,11 +19,17 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage({ type: "", text: "" }); // reset message
+    setMessage({ type: "", text: "" });
+
     try {
       const res = await axiosInstance.post("/api/admin/login", formData);
       localStorage.setItem("token", res.data.token); // store JWT token
       setMessage({ type: "success", text: res.data.message || "Login successful!" });
+
+      // Wait 1.5s to show success message before redirect
+      setTimeout(() => {
+        navigate("/admin/dashboard");
+      }, 1500);
     } catch (err) {
       setMessage({ type: "error", text: err.response?.data?.message || "Login failed" });
     } finally {
@@ -35,7 +43,7 @@ const Login = () => {
         <h2 className="text-3xl font-bold text-center text-[#0B1E3F] mb-6">
           Welcome Back
         </h2>
-        
+
         {/* Feedback Message */}
         {message.text && (
           <p
@@ -84,7 +92,7 @@ const Login = () => {
               loading ? "opacity-70 cursor-not-allowed" : "hover:bg-[#E6C200]"
             }`}
           >
-            {loading ? <Loader2 className="animate-spin mr-2" /> : null}
+            {loading && <Loader2 className="animate-spin mr-2" />}
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
