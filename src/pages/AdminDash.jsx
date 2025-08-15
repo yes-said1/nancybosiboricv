@@ -44,7 +44,7 @@ const AdminDash = () => {
           <button className="block w-full text-left hover:bg-[#123C69] p-2 rounded">Settings</button>
         </nav>
         <button
-          onClick={handleLogout}
+        //   onClick={handleLogout}
           className="mt-8 bg-red-500 hover:bg-red-600 px-4 py-2 rounded w-full"
         >
           Logout
