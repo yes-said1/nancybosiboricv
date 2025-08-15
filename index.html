@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nancy</title>
+    <!-- Favicon (logo in tab) -->
+  <!-- <link rel="icon" type="image/png" href="/logo1.png" /> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+     <style>
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0; /* Initial hidden */
+  }
+
+  /* slower, gentler bounce */
+  @keyframes slowBounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .slow-bounce {
+    animation: slowBounce 3s ease-in-out infinite;
+  }
+</style>
+
+
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
