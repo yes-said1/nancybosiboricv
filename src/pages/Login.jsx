@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Mail, Lock } from "lucide-react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance"; // <-- import shared instance
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -15,7 +15,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3000/api/admin/login", formData); // change URL to your backend
+      const res = await axiosInstance.post("/api/admin/login", formData);
       alert(res.data.message);
       localStorage.setItem("token", res.data.token); // store JWT token
     } catch (err) {
@@ -26,7 +26,9 @@ const Login = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-[#0B1E3F] to-[#123C69] px-4">
       <div className="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full">
-        <h2 className="text-3xl font-bold text-center text-[#0B1E3F] mb-6">Welcome Back</h2>
+        <h2 className="text-3xl font-bold text-center text-[#0B1E3F] mb-6">
+          Welcome Back
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Email */}
           <div className="flex items-center border border-gray-300 rounded-lg px-4">

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { User, Mail, Lock, CheckCircle, XCircle } from "lucide-react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance"; // <-- use your axios instance
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
@@ -23,7 +23,7 @@ const Register = () => {
     setSuccessMessage("");
 
     try {
-      const res = await axios.post("http://localhost:3000/api/admin/register", formData);
+      const res = await axiosInstance.post("/api/admin/register", formData);
       setSuccessMessage(res.data.message || "Registration successful!");
 
       // Redirect after 2 seconds
@@ -55,7 +55,9 @@ const Register = () => {
           </div>
         )}
 
-        <h2 className="text-3xl font-bold text-center text-[#0B1E3F] mb-6">Create an Account</h2>
+        <h2 className="text-3xl font-bold text-center text-[#0B1E3F] mb-6">
+          Create an Account
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Name */}
           <div className="flex items-center border border-gray-300 rounded-lg px-4">
