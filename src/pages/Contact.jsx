@@ -10,7 +10,7 @@ const Contact = () => {
     message: "",
   });
   const [loading, setLoading] = useState(false);
-const [feedback, setFeedback] = useState({ type: "", message: "" });
+  const [feedback, setFeedback] = useState({ type: "", message: "" });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,20 +19,24 @@ const [feedback, setFeedback] = useState({ type: "", message: "" });
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setFeedback("");
+    setFeedback({ type: "", message: "" }); // reset
 
     try {
       const res = await axiosInstance.post("/api/contacts/create", formData);
- setFeedback({
-    type: "success",
-    message: res.data.message || "Message sent successfully!",
-  });
-      setFeedback(res.data.message || "Message sent successfully!");
+
+      setFeedback({
+        type: "success",
+        message: res.data.message || "Message sent successfully!",
+      });
+
       setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error) {
-      setFeedback(
-        error.response?.data?.message || "Something went wrong. Please try again."
-      );
+      setFeedback({
+        type: "error",
+        message:
+          error.response?.data?.message ||
+          "Something went wrong. Please try again.",
+      });
     } finally {
       setLoading(false);
     }
@@ -127,49 +131,38 @@ const [feedback, setFeedback] = useState({ type: "", message: "" });
           </form>
 
           {feedback.message && (
-  <div
-    className={`mt-6 flex items-center gap-3 px-4 py-3 rounded-lg shadow-md fade-in-up ${
-      feedback.type === "success"
-        ? "bg-green-100 text-green-700 slow-bounce"
-        : "bg-red-100 text-red-700"
-    }`}
-  >
-    {feedback.type === "success" ? (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-6 w-6 text-green-600"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M5 13l4 4L19 7"
-        />
-      </svg>
-    ) : (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-6 w-6 text-red-600"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M6 18L18 6M6 6l12 12"
-        />
-      </svg>
-    )}
-    <span className="font-medium">{feedback.message}</span>
-  </div>
-)}
-
-</div>
+            <div
+              className={`mt-6 flex items-center gap-3 px-4 py-3 rounded-lg shadow-md fade-in-up ${
+                feedback.type === "success"
+                  ? "bg-green-100 text-green-700 slow-bounce"
+                  : "bg-red-100 text-red-700"
+              }`}
+            >
+              {feedback.type === "success" ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 text-green-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 text-red-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              )}
+              <span className="font-medium">{feedback.message}</span>
+            </div>
+          )}
+        </div>
       </section>
 
       {/* Map Section */}
