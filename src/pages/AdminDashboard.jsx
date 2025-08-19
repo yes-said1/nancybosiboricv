@@ -8,31 +8,31 @@ const AdminDashboard = () => {
   const [messages, setMessages] = useState([]);
   const [stats, setStats] = useState({ requests: 0, approved: 0, messages: 0 });
 
-  // Fetch requests
-  const fetchRequests = async () => {
-    try {
-      const res = await axiosInstance.get("/api/request-access/all");
-      setRequests(res.data);
-      setStats((prev) => ({ ...prev, requests: res.data.length }));
-      setStats((prev) => ({
-        ...prev,
-        approved: res.data.filter((r) => r.approved).length,
-      }));
-    } catch (error) {
-      console.error("Error fetching requests", error);
-    }
-  };
+// Fetch requests
+const fetchRequests = async () => {
+  try {
+    const res = await axiosInstance.get("/api/request-access/all");
+    setRequests(res.data); // res.data is now an array
+    setStats((prev) => ({
+      ...prev,
+      requests: res.data.length,
+      approved: res.data.filter((r) => r.approved).length,
+    }));
+  } catch (error) {
+    console.error("Error fetching requests", error);
+  }
+};
 
-  // Fetch messages
-  const fetchMessages = async () => {
-    try {
-      const res = await axiosInstance.get("/api/contacts/all");
-      setMessages(res.data);
-      setStats((prev) => ({ ...prev, messages: res.data.length }));
-    } catch (error) {
-      console.error("Error fetching messages", error);
-    }
-  };
+// Fetch messages
+const fetchMessages = async () => {
+  try {
+    const res = await axiosInstance.get("/api/contacts");
+    setMessages(res.data); // res.data is array now
+    setStats((prev) => ({ ...prev, messages: res.data.length }));
+  } catch (error) {
+    console.error("Error fetching messages", error);
+  }
+};
 
   useEffect(() => {
     fetchRequests();
