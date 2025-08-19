@@ -22,8 +22,7 @@ const Contact = () => {
     setFeedback("");
 
     try {
-      // 👇 sends data to /api/contact/create
-      const res = await axiosInstance.post("/contact/create", formData);
+      const res = await axiosInstance.post("/contacts/create", formData);
 
       setFeedback(res.data.message || "Message sent successfully!");
       setFormData({ name: "", email: "", subject: "", message: "" });
