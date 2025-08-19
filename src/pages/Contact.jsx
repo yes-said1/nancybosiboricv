@@ -17,30 +17,34 @@ const Contact = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setFeedback({ type: "", message: "" }); // reset
+  e.preventDefault();
+  setLoading(true);
+  setFeedback({ type: "", message: "" }); // reset
 
-    try {
-      const res = await axiosInstance.post("/api/contacts/create", formData);
+  try {
+    const res = await axiosInstance.post("/api/contacts/create", formData);
 
-      setFeedback({
-        type: "success",
-        message: res.data.message || "Message sent successfully!",
-      });
+    setFeedback({
+      type: "success",
+      message: res.data?.message || "✅ Message sent successfully!",
+    });
 
-      setFormData({ name: "", email: "", subject: "", message: "" });
-    } catch (error) {
-      setFeedback({
-        type: "error",
-        message:
-          error.response?.data?.message ||
-          "Something went wrong. Please try again.",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+    setFormData({ name: "", email: "", subject: "", message: "" });
+  } catch (error) {
+    console.error("Contact form error:", error); // <-- debug in console
+
+    setFeedback({
+      type: "error",
+      message:
+        error.response?.data?.message ||
+        "❌ Something went wrong. Please try again.",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
+
+console.log("FEEDBACK STATE:", feedback);
 
   return (
     <div className="bg-white text-gray-800">
@@ -130,38 +134,20 @@ const Contact = () => {
             </button>
           </form>
 
-          {feedback.message && (
-            <div
-              className={`mt-6 flex items-center gap-3 px-4 py-3 rounded-lg shadow-md fade-in-up ${
-                feedback.type === "success"
-                  ? "bg-green-100 text-green-700 slow-bounce"
-                  : "bg-red-100 text-red-700"
-              }`}
-            >
-              {feedback.type === "success" ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-green-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-red-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              )}
-              <span className="font-medium">{feedback.message}</span>
-            </div>
-          )}
+         <div className="mt-6">
+  {feedback.message && (
+    <div
+      className={`flex items-center gap-3 px-4 py-3 rounded-lg shadow-md ${
+        feedback.type === "success"
+          ? "bg-green-100 text-green-700"
+          : "bg-red-100 text-red-700"
+      }`}
+    >
+      <span className="font-medium">{feedback.message}</span>
+    </div>
+  )}
+</div>
+
         </div>
       </section>
 
