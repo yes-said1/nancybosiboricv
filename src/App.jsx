@@ -8,16 +8,7 @@ import Contact from './pages/Contact';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import AdminDash from './pages/AdminDash';
-// import ManageProjects from './pages/ManageProjects';
-// import ManageBlogs from './pages/ManageBlogs';
-// import ContactMessages from './pages/ContactMessages';
-// import ProtectedRoute from './components/ProtectedRoute'; // Make sure path is correct
-// import Terms from './pages/Terms';
-// import Privacy from './pages/Privacy';
-// import RequestAccessForm from './pages/RequestAccessForm';
-// import ManageRequests from './pages/ManageRequests';
-// import ForgotPassword from './pages/ForgotPassword';
-// import ResetPassword from './pages/ResetPassword';
+import RequestAccessForm from './pages/RequestAcessForm';
 
 const App = () => {
   return (
@@ -30,13 +21,7 @@ const App = () => {
         <Route path='register' element={<Register />} />
         <Route path='login' element={<Login />} />
         <Route path='admin' element={<AdminDash />} />
-        {/* <Route path="about" element={<AboutUs />} />
-        <Route path="terms" element={<Terms />} />
-        <Route path="privacy" element={<Privacy />} />
-        <Route path="request" element={<RequestAccessForm />} />
-        <Route path="forgot-password" element={<ForgotPassword />} />
-        <Route path="reset-password" element={<ResetPassword />} /> */}
-
+        <Route path='request' element={<RequestAccessForm />} />
         {/* Admin Protected Route */}
         {/* <Route
           path="oguang"
