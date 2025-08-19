@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { Mail, Lock, Loader2 } from "lucide-react";
-import axiosInstance from "../utils/axiosInstance"; // shared axios instance
+import axiosInstance from "../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
-  const navigate = useNavigate(); // navigation hook
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,16 +22,20 @@ const Login = () => {
     setMessage({ type: "", text: "" });
 
     try {
-      const res = await axiosInstance.post("/api/admin/login", formData);
-      localStorage.setItem("token", res.data.token); // store JWT token
+      const res = await axiosInstance.post("/api/admin/login", formData, {
+        withCredentials: true, // ✅ ensure cookie is stored
+      });
+
       setMessage({ type: "success", text: res.data.message || "Login successful!" });
 
-      // Wait 1.5s to show success message before redirect
       setTimeout(() => {
         navigate("/admin");
       }, 1500);
     } catch (err) {
-      setMessage({ type: "error", text: err.response?.data?.message || "Login failed" });
+      setMessage({
+        type: "error",
+        text: err.response?.data?.message || "Login failed",
+      });
     } finally {
       setLoading(false);
     }
@@ -44,7 +48,6 @@ const Login = () => {
           Welcome Back
         </h2>
 
-        {/* Feedback Message */}
         {message.text && (
           <p
             className={`text-center mb-4 font-semibold ${
