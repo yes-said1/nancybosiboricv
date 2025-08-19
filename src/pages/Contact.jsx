@@ -123,10 +123,40 @@ const Contact = () => {
             </button>
           </form>
 
-          {/* Feedback message */}
-          {feedback && (
-            <p className="mt-4 text-center text-gray-700 font-medium">{feedback}</p>
-          )}
+          {/* Feedback message with animation */}
+{feedback && (
+  <div
+    className={`mt-6 flex items-center gap-3 px-4 py-3 rounded-lg shadow-md fade-in-up ${
+      feedback.type === "success"
+        ? "bg-green-100 text-green-700 slow-bounce"
+        : "bg-red-100 text-red-700"
+    }`}
+  >
+    {feedback.type === "success" ? (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-6 w-6 text-green-600"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+      </svg>
+    ) : (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-6 w-6 text-red-600"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    )}
+    <span className="font-medium">{feedback.message}</span>
+  </div>
+)}
+
         </div>
       </section>
 
