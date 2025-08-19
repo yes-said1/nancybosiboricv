@@ -10,7 +10,7 @@ const Contact = () => {
     message: "",
   });
   const [loading, setLoading] = useState(false);
-  const [feedback, setFeedback] = useState("");
+const [feedback, setFeedback] = useState({ type: "", message: "" });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,7 +23,10 @@ const Contact = () => {
 
     try {
       const res = await axiosInstance.post("/api/contacts/create", formData);
-
+ setFeedback({
+    type: "success",
+    message: res.data.message || "Message sent successfully!",
+  });
       setFeedback(res.data.message || "Message sent successfully!");
       setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error) {
@@ -123,8 +126,7 @@ const Contact = () => {
             </button>
           </form>
 
-          {/* Feedback message with animation */}
-{feedback && (
+          {feedback.message && (
   <div
     className={`mt-6 flex items-center gap-3 px-4 py-3 rounded-lg shadow-md fade-in-up ${
       feedback.type === "success"
@@ -140,7 +142,12 @@ const Contact = () => {
         viewBox="0 0 24 24"
         stroke="currentColor"
       >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M5 13l4 4L19 7"
+        />
       </svg>
     ) : (
       <svg
@@ -150,14 +157,19 @@ const Contact = () => {
         viewBox="0 0 24 24"
         stroke="currentColor"
       >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
       </svg>
     )}
     <span className="font-medium">{feedback.message}</span>
   </div>
 )}
 
-        </div>
+</div>
       </section>
 
       {/* Map Section */}
