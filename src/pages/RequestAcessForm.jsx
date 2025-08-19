@@ -16,7 +16,7 @@ const RequestAccessForm = () => {
     setStatus('Submitting...');
 
     try {
-      const res = await axiosInstance.post('/request-access', formData);
+      const res = await axiosInstance.post('/api/request-access', formData);
 
       if (res.data.success) {
         setStatus('Request submitted! Wait for approval.');
@@ -35,7 +35,7 @@ const RequestAccessForm = () => {
     if (requestId) {
       interval = setInterval(async () => {
         try {
-          const res = await axiosInstance.get(`/request-access/status/${requestId}`);
+          const res = await axiosInstance.get(`/api/request-access/status/${requestId}`);
           if (res.data.approved) {
             setApproved(true);
             setStatus('Request approved! You can now download the CV.');
