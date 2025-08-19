@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Mail, Phone, MapPin } from "lucide-react";
+import axiosInstance from "../utils/axiosInstance"; 
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -8,17 +9,31 @@ const Contact = () => {
     subject: "",
     message: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [feedback, setFeedback] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // You can integrate EmailJS, Formspree, or backend API here
-    alert("Thank you! Your message has been sent.");
-    setFormData({ name: "", email: "", subject: "", message: "" });
+    setLoading(true);
+    setFeedback("");
+
+    try {
+      // 👇 sends data to /api/contact/create
+      const res = await axiosInstance.post("/contact/create", formData);
+
+      setFeedback(res.data.message || "Message sent successfully!");
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (error) {
+      setFeedback(
+        error.response?.data?.message || "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -102,11 +117,17 @@ const Contact = () => {
             ></textarea>
             <button
               type="submit"
-              className="bg-[#FFD700] text-[#0B1E3F] px-6 py-3 rounded-lg font-bold hover:bg-[#E6C200] transition-all duration-300"
+              disabled={loading}
+              className="bg-[#FFD700] text-[#0B1E3F] px-6 py-3 rounded-lg font-bold hover:bg-[#E6C200] transition-all duration-300 disabled:opacity-50"
             >
-              Send Message
+              {loading ? "Sending..." : "Send Message"}
             </button>
           </form>
+
+          {/* Feedback message */}
+          {feedback && (
+            <p className="mt-4 text-center text-gray-700 font-medium">{feedback}</p>
+          )}
         </div>
       </section>
 
