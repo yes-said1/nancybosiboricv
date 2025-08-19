@@ -7,7 +7,7 @@ import Services from './pages/Services';
 import Contact from './pages/Contact';
 import Register from './pages/Register';
 import Login from './pages/Login';
-import AdminDash from './pages/AdminDash';
+import AdminDash from './pages/AdminDashboard';
 import RequestAccessForm from './pages/RequestAcessForm';
 
 const App = () => {
