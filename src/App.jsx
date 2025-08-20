@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import AdminDash from './pages/AdminDashboard';
 import RequestAccessForm from './pages/RequestAcessForm';
 import Terms from './pages/Terms';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Route path='admin' element={<AdminDash />} />
         <Route path='request' element={<RequestAccessForm />} />
         <Route path='terms' element={<Terms />} />
+        <Route path='privacy' element={<PrivacyPolicy />} />
       </Route>
     </Routes>
   );
