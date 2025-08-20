@@ -105,7 +105,7 @@ const RequestAccessForm = () => {
       {approved && (
         <div className="mt-6 text-center">
           <a
-            href="https://drive.google.com/file/d/1pB2iN1whvEYZ9vHjgzhe_QIDfLuW16KO"
+            href="https://drive.google.com/uc?export=download&id=1pB2iN1whvEYZ9vHjgzhe_QIDfLuW16KO"
             className="bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700"
             target="_blank"
             rel="noopener noreferrer"
