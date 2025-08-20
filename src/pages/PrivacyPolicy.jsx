@@ -106,7 +106,7 @@ const PrivacyPolicy = () => {
           us at:
         </p>
         <p className="mt-2">
-          Email: <a href="mailto:info@example.com" className="text-blue-600">info@example.com</a>
+          Email: <a href="mailto:info@example.com" className="text-blue-600">bosborynnc@gmail.com or via the contact form</a>
         </p>
       </section>
     </motion.div>
