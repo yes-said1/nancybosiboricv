@@ -12,7 +12,7 @@ const AdminDashboard = () => {
 const fetchRequests = async () => {
   try {
     const res = await axiosInstance.get("/api/request-access/all");
-    setRequests(res.data); // res.data is now an array
+    setRequests(res.data); 
     setStats((prev) => ({
       ...prev,
       requests: res.data.length,
@@ -27,7 +27,7 @@ const fetchRequests = async () => {
 const fetchMessages = async () => {
   try {
     const res = await axiosInstance.get("/api/contacts");
-    setMessages(res.data); // res.data is array now
+    setMessages(res.data); 
     setStats((prev) => ({ ...prev, messages: res.data.length }));
   } catch (error) {
     console.error("Error fetching messages", error);
