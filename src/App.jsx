@@ -9,6 +9,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import AdminDash from './pages/AdminDashboard';
 import RequestAccessForm from './pages/RequestAcessForm';
+import Terms from './pages/Terms';
 
 const App = () => {
   return (
@@ -22,20 +23,7 @@ const App = () => {
         <Route path='login' element={<Login />} />
         <Route path='admin' element={<AdminDash />} />
         <Route path='request' element={<RequestAccessForm />} />
-        {/* Admin Protected Route */}
-        {/* <Route
-          path="oguang"
-          element={
-            <ProtectedRoute>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        >
-          <Route path="projects" element={<ManageProjects />} />
-          <Route path="blogs" element={<ManageBlogs />} />
-          <Route path="messages" element={<ContactMessages />} />
-          <Route path="manrequests" element={<ManageRequests />} />
-        </Route> */}
+        <Route path='terms' element={<Terms />} />
       </Route>
     </Routes>
   );
