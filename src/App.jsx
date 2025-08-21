@@ -23,7 +23,6 @@ const App = () => {
         <Route path='contact' element={<Contact />} />
         <Route path='register' element={<Register />} />
         <Route path='login' element={<Login />} />
-        <Route path='xt1' element={<AdminDash />} />
         <Route path='request' element={<RequestAccessForm />} />
         <Route path='terms' element={<Terms />} />
         <Route path='privacy' element={<PrivacyPolicy />} />
