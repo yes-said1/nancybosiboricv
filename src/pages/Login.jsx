@@ -29,7 +29,7 @@ const Login = () => {
       setMessage({ type: "success", text: res.data.message || "Login successful!" });
 
       setTimeout(() => {
-        navigate("/admin");
+        navigate("/xt1");
       }, 1500);
     } catch (err) {
       setMessage({
