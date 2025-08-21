@@ -22,7 +22,7 @@ const Header = ({ currentPage, onNavigate }) => {
     <header className="bg-[#0B1E3F] shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-
+          
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
             {navItems.map((item) => (
@@ -38,24 +38,25 @@ const Header = ({ currentPage, onNavigate }) => {
                 {item.name}
               </button>
             ))}
-
-            {/* Admin Link with Icon */}
-            <Link
-              to="/login"
-              className="flex items-center space-x-2 px-4 py-3 rounded-md text-base font-medium transition-colors duration-200 text-gray-200 hover:text-[#FFD700] hover:bg-[#123C69]"
-            >
-              <UserCog size={20} />
-              <span>Admin</span>
-            </Link>
           </nav>
 
-          {/* CV Download Button */}
+          {/* Right Section (CV + Admin) */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link
+            {/* Download CV */}
+            <Link 
               to="/request"
               className="bg-[#FFD700] text-[#0B1E3F] px-5 py-3 rounded-md text-base font-medium hover:bg-[#E6C200] transition-colors duration-200"
             >
               Download CV
+            </Link> 
+
+            {/* Admin */}
+            <Link 
+              to="/login"
+              className="flex items-center space-x-2 text-gray-200 hover:text-[#FFD700] px-4 py-3 rounded-md text-base font-medium transition-colors duration-200 hover:bg-[#123C69]"
+            >
+              <UserCog size={20} />
+              <span>Admin</span>
             </Link>
           </div>
 
@@ -88,24 +89,22 @@ const Header = ({ currentPage, onNavigate }) => {
                 </button>
               ))}
 
-              {/* Admin Link (Mobile) */}
+              {/* Download CV */}
+              <Link
+                to="/request"
+                className="w-full bg-[#FFD700] text-[#0B1E3F] px-5 py-3 rounded-md text-base font-medium hover:bg-[#E6C200] transition-colors duration-200 mt-2 inline-block text-center"
+              >
+                Download CV
+              </Link>
+
+              {/* Admin (Mobile) */}
               <Link
                 to="/login"
-                className="flex items-center space-x-2 px-4 py-3 rounded-md text-base font-medium transition-colors duration-200 text-gray-700 hover:text-[#0B1E3F] hover:bg-gray-100"
+                className="flex items-center justify-center space-x-2 w-full text-gray-700 hover:text-[#0B1E3F] hover:bg-gray-100 px-5 py-3 rounded-md text-base font-medium transition-colors duration-200 mt-2"
               >
                 <UserCog size={20} />
                 <span>Admin</span>
               </Link>
-
-              {/* CV Download */}
-              <a
-                href="https://drive.google.com/uc?export=download&id=1iEuXDtlfnzIROms3zvlYMzm8oSNRVlKS"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full bg-[#FFD700] text-[#0B1E3F] px-5 py-3 rounded-md text-base font-medium hover:bg-[#E6C200] transition-colors duration-200 mt-4 inline-block text-center"
-              >
-                Download CV
-              </a>
             </div>
           </div>
         )}
