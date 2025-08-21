@@ -7,36 +7,53 @@ const AdminDashboard = () => {
   const [requests, setRequests] = useState([]);
   const [messages, setMessages] = useState([]);
   const [stats, setStats] = useState({ requests: 0, approved: 0, messages: 0 });
+  const [admin, setAdmin] = useState(null);
+  const [dateTime, setDateTime] = useState(new Date());
 
-// Fetch requests
-const fetchRequests = async () => {
-  try {
-    const res = await axiosInstance.get("/api/request-access/all");
-    setRequests(res.data); 
-    setStats((prev) => ({
-      ...prev,
-      requests: res.data.length,
-      approved: res.data.filter((r) => r.approved).length,
-    }));
-  } catch (error) {
-    console.error("Error fetching requests", error);
-  }
-};
+  // Fetch admin profile
+  const fetchAdminProfile = async () => {
+    try {
+      const res = await axiosInstance.get("/api/admin/profile");
+      setAdmin(res.data);
+    } catch (error) {
+      console.error("Error fetching admin profile:", error);
+    }
+  };
 
-// Fetch messages
-const fetchMessages = async () => {
-  try {
-    const res = await axiosInstance.get("/api/contacts");
-    setMessages(res.data); 
-    setStats((prev) => ({ ...prev, messages: res.data.length }));
-  } catch (error) {
-    console.error("Error fetching messages", error);
-  }
-};
+  // Fetch requests
+  const fetchRequests = async () => {
+    try {
+      const res = await axiosInstance.get("/api/request-access/all");
+      setRequests(res.data);
+      setStats((prev) => ({
+        ...prev,
+        requests: res.data.length,
+        approved: res.data.filter((r) => r.approved).length,
+      }));
+    } catch (error) {
+      console.error("Error fetching requests", error);
+    }
+  };
+
+  // Fetch messages
+  const fetchMessages = async () => {
+    try {
+      const res = await axiosInstance.get("/api/contacts");
+      setMessages(res.data);
+      setStats((prev) => ({ ...prev, messages: res.data.length }));
+    } catch (error) {
+      console.error("Error fetching messages", error);
+    }
+  };
 
   useEffect(() => {
+    fetchAdminProfile();
     fetchRequests();
     fetchMessages();
+
+    // Update date & time every second
+    const timer = setInterval(() => setDateTime(new Date()), 1000);
+    return () => clearInterval(timer);
   }, []);
 
   // Approve request
@@ -52,7 +69,14 @@ const fetchMessages = async () => {
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
       {/* Dashboard Header */}
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Admin Dashboard</h1>
+      <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between">
+        <h1 className="text-3xl font-bold text-gray-800">
+          Welcome{admin ? `, ${admin.name}` : ""} 🎉
+        </h1>
+        <p className="text-gray-600 mt-2 md:mt-0">
+          {dateTime.toLocaleDateString()} • {dateTime.toLocaleTimeString()}
+        </p>
+      </div>
 
       {/* Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
