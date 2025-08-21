@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }) => {
     const checkAuth = async () => {
       try {
         // 👇 call backend to validate cookie
-        await axiosInstance.get("/admin/dashboard");
+        await axiosInstance.get("/api/admin/dashboard");
         setIsAuthenticated(true);
       } catch (err) {
         setIsAuthenticated(false);
