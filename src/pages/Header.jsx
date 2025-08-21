@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, UserCog } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Header = ({ currentPage, onNavigate }) => {
@@ -10,7 +10,7 @@ const Header = ({ currentPage, onNavigate }) => {
     { name: 'About', key: 'about' },
     { name: 'Portfolio', key: 'portfolio' },
     { name: 'Services', key: 'services' },
-    { name: 'Contact', key: 'contact' }
+    { name: 'Contact', key: 'contact' },
   ];
 
   const handleNavClick = (key) => {
@@ -22,7 +22,7 @@ const Header = ({ currentPage, onNavigate }) => {
     <header className="bg-[#0B1E3F] shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          
+
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
             {navItems.map((item) => (
@@ -38,16 +38,25 @@ const Header = ({ currentPage, onNavigate }) => {
                 {item.name}
               </button>
             ))}
+
+            {/* Admin Link with Icon */}
+            <Link
+              to="/login"
+              className="flex items-center space-x-2 px-4 py-3 rounded-md text-base font-medium transition-colors duration-200 text-gray-200 hover:text-[#FFD700] hover:bg-[#123C69]"
+            >
+              <UserCog size={20} />
+              <span>Admin</span>
+            </Link>
           </nav>
 
           {/* CV Download Button */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link 
+            <Link
               to="/request"
               className="bg-[#FFD700] text-[#0B1E3F] px-5 py-3 rounded-md text-base font-medium hover:bg-[#E6C200] transition-colors duration-200"
             >
               Download CV
-            </Link> 
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -56,7 +65,7 @@ const Header = ({ currentPage, onNavigate }) => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-white hover:text-[#FFD700] focus:outline-none"
             >
-              {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />} 
+              {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
           </div>
         </div>
@@ -78,7 +87,18 @@ const Header = ({ currentPage, onNavigate }) => {
                   {item.name}
                 </button>
               ))}
-              <a 
+
+              {/* Admin Link (Mobile) */}
+              <Link
+                to="/login"
+                className="flex items-center space-x-2 px-4 py-3 rounded-md text-base font-medium transition-colors duration-200 text-gray-700 hover:text-[#0B1E3F] hover:bg-gray-100"
+              >
+                <UserCog size={20} />
+                <span>Admin</span>
+              </Link>
+
+              {/* CV Download */}
+              <a
                 href="https://drive.google.com/uc?export=download&id=1iEuXDtlfnzIROms3zvlYMzm8oSNRVlKS"
                 target="_blank"
                 rel="noopener noreferrer"
